@@ -21,11 +21,17 @@ jobs:
     if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
 
     permissions:
-      id-token: write
       contents: read
 
     steps:
       - uses: actions/checkout@v4
+
+      - name: Vérifier les secrets AWS
+        run: |
+          if [ -z "${{ secrets.AWS_ACCESS_KEY_ID }}" ] || [ -z "${{ secrets.AWS_SECRET_ACCESS_KEY }}" ]; then
+            echo "ERROR: AWS secrets manquants. Ajoutez AWS_ACCESS_KEY_ID et AWS_SECRET_ACCESS_KEY dans les secrets du dépôt."
+            exit 1
+          fi
 
       - name: Configuration AWS
         uses: aws-actions/configure-aws-credentials@v4
