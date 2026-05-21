@@ -45,6 +45,7 @@ jobs:
           java-version: ${{ env.JAVA_VERSION }}
           distribution: temurin
           cache: maven
+          cache-dependency-path: services/${{ matrix.service }}/pom.xml
 
       - name: Compilation et tests unitaires
         run: |
@@ -85,6 +86,7 @@ jobs:
           java-version: ${{ env.JAVA_VERSION }}
           distribution: temurin
           cache: maven
+          cache-dependency-path: 'services/**/pom.xml'
 
       - name: Vérification du style de code
         run: |
